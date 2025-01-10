@@ -1,0 +1,9 @@
+services:
+  hello-world:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hello-world
+    restart: always
+    ports:
+      - 8080:80
