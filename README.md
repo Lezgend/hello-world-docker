@@ -27,14 +27,14 @@ git clone https://github.com/Lezgend/hello-world-docker.git && cd hello-world-do
 
 For x86_64 architecture and arm64 architecture (e.g., macOS M1/M2):
 ```bash
-docker pull ghcr.io/lezgend/hello-world-docker:v1.0.0
+docker pull ghcr.io/lezgend/hello-world-docker:v1.1.0 --platform linux/amd64
 ```
 
 ### Run the Application
 
 Start the container using Docker:
 ```bash
-docker run -d --rm --name hello-world -p 8080:80 docker pull ghcr.io/lezgend/hello-world-docker:v1.0.0
+docker run -d --rm --name hello-world -p 8080:80 docker pull ghcr.io/lezgend/hello-world-docker:v1.1.0
 ```
 
 The application will be accessible at `http://localhost:8080`.
