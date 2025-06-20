@@ -1,32 +1,24 @@
-# Step 1: Build the project
-FROM alpine:3.21 AS builder
+# ---------- Stage 1: Builder ----------
+FROM alpine:latest AS builder
 
-# Install necessary dependencies
-RUN apk add --no-cache wget upx
+RUN apk add --no-cache build-base yasm git wget
 
-# Set the working directory
 WORKDIR /app
 
-# Copy the current project into the container
-COPY index.html .
+RUN git clone https://github.com/nemasu/asmttpd.git . && \
+    make CC=musl-gcc CFLAGS="-Os -static" LDFLAGS="-Wl,--gc-sections -s" && \
+    strip asmttpd && \
+    mkdir -p /app/web
 
-# Download the asmttpd (a lightweight HTTP server written in assembly) binary from the specified GitHub release
-RUN wget https://github.com/nemasu/asmttpd/releases/download/0.4.5/asmttpd && chmod +x asmttpd
+COPY index.html /app/web/index.html
 
-# Use UPX (Ultimate Packer for eXecutables) to compress the asmttpd binary for minimal size
-RUN upx --best --lzma asmttpd
-
-# Step 2: Final minimal image with scratch
+# ---------- Stage 2: Final minimal image ----------
 FROM scratch
 
-# Copy the source code from the previous stage (Builder stage) into the backend build stage
-COPY --from=builder /app /web
-
-# Copy the built backend binary (asmttpd) from the build stage
 COPY --from=builder /app/asmttpd /asmttpd
+COPY --from=builder /app/web /web
 
-# Set the entrypoint to start the web server
+EXPOSE 80
+
 ENTRYPOINT ["/asmttpd"]
-
-# Default command to serve from /web_root on port 80
 CMD ["/web", "80"]
