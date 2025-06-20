@@ -1,13 +1,13 @@
 # Hello World Docker
-Ultra-Lightweight Hello World Dockerized in 22.4 kB
+Ultra-Lightweight Hello World Dockerized in 14.5 kB
 ```bash
 → docker image ls
 REPOSITORY                           TAG       IMAGE ID       CREATED         SIZE
-ghcr.io/lezgend/hello-world-docker   v1.0.0    48b245d19756   7 minutes ago   22.4kB
+ghcr.io/lezgend/hello-world-docker   v1.1.0    56f00dc035ef   7 minutes ago   14.5kB
 ```
 
 ## ✨ Features
-- 🛠 Ridiculously Small: Just 22.4KB—smaller than a single web page!
+- 🛠 Ridiculously Small: Just 14.5KB—smaller than a single web page!
 - ⚡ Blazing Fast: Near-instant startup for demos, microservices, or inspiration.
 - 🎓 Educational Value: Perfect for learning minimal Docker builds with scratch.
 
@@ -48,7 +48,8 @@ In the root of your project directory, create a `docker-compose.yaml` file with 
 ```yaml
 services:
   hello-world:
-    image: ghcr.io/lezgend/hello-world-docker:v1.0.0
+    image: ghcr.io/lezgend/hello-world-docker:v1.1.0
+    platform: linux/amd64
     container_name: hello-world
     restart: always
     ports:
